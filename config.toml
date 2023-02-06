@@ -1,6 +1,6 @@
-baseurl = "offensive-ninja.github.io"
+baseurl = "offensive.ninja"
 languageCode = "en-us"
-theme = "hello-friend-ng"
+theme = "hello-friend"
 paginate = 5
 
 [params]
@@ -16,7 +16,7 @@ paginate = 5
 [languages]
   [languages.en]
     title = "Offensive Ninja"
-    subtitle = "A simple theme for Hugo"
+    subtitle = "a red team journey"
     keywords = ""
     copyright = ""
     menuMore = "Show more"
