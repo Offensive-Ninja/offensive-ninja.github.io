@@ -11,11 +11,11 @@ paginate = 5
   # if you set this to 0, only submenu trigger will be visible
   showMenuItems = 2
   # Enable to show reading time in minutes for posts
-  showReadingTime = false
+  showReadingTime = true
 
 [languages]
   [languages.en]
-    title = "Hello Friend"
+    title = "Offensive Ninja"
     subtitle = "A simple theme for Hugo"
     keywords = ""
     copyright = ""
