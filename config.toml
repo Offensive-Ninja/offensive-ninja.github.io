@@ -1,11 +1,11 @@
-baseurl = "offensive.ninja"
+baseurl = "https://offensive.ninja"
 languageCode = "en-us"
 theme = "hello-friend"
 paginate = 5
 
 [params]
   # dir name of your blog content (default is `content/posts`)
-  contentTypeName = "post"
+  contentTypeName = "posts"
   # "light" or "dark"
   defaultTheme = "dark"
   # if you set this to 0, only submenu trigger will be visible
@@ -42,3 +42,7 @@ paginate = 5
         identifier = "about"
         name = "Github"
         url = "https://github.com/offensive-ninja"
+      [[languages.en.menu.main]]
+        identifier = "Posts"
+        name = "Posts"
+        url = "/posts"
