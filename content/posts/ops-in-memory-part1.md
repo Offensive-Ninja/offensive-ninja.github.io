@@ -5,9 +5,15 @@ draft: false
 description: "This blog is heavily based on Sektor 7’s research, we will be making any changes required for modern systems before weaponizing it, using a standard reverse shell to gain an initial foothold. We’ll then see how far these techniques could be pushed, using the Sliver post exploitation framework."
 ---
 
-> **_Warning:_** The techniques described in this blog should only be executed on systems that you own / have permission to operate.
+> **_Warning:_** The techniques described in this blog should only be executed on systems that you own / have legal authority over.
 
-This blog is *heavily* based on [Sektor 7’s research](https://blog.sektor7.net/#!res/2018/pure-in-memory-linux.md), we will be making any changes required for modern systems before weaponizing it, using a standard reverse shell to gain an initial foothold. We’ll then see how far these techniques could be pushed, using the [Sliver](https://github.com/BishopFox/sliver) post exploitation framework.
+This blog is *heavily* based on [Sektor 7’s research](https://blog.sektor7.net/#!res/2018/pure-in-memory-linux.md), we will be making any changes required for modern systems before weaponizing it, using a standard reverse shell to gain an initial foothold. 
+
+## Introduction
+Let's say you get command execution on a a linux box, that could be by a webshell, ssh, whatever.. typically you'd need / want to run some additional post exploitation tools. Usually tools would be uploaded (or downloaded directly from random sources on the internet), however this opens us upto detection from the ~~victim~~ blue team. This would burn our access and potentially other hosts we might have compromised in the same fashion.
+
+Here we'll take a look at a couple of ways to run code in memory only, ranging from shellcode, to eventually any binary we wish.. in this case, [Sliver](https://github.com/BishopFox/sliver) the post exploitation framework that's [made news recently](https://www.ncsc.gov.uk/files/Advisory%20Further%20TTPs%20associated%20with%20SVR%20cyber%20actors.pdf) for use by Cozy Bear aka APT29.
+
 
 ## Getting started
 
@@ -134,12 +140,14 @@ Here we’re running a more complex bit of shell code, that connects back to us:
 
 Upon connection we have to send the string `letmein` otherwise the connection is killed, but we then have a (limited) shell running under the context of the gdb executing user. This was a quick example to show that we can load in any shellcode that we like.
 
+[You can find this on here](https://github.com/Offensive-Ninja/Shellcode/blob/main/Reverse-Shells/rvshell-with-password.asm)
+
 <aside>
 💡 if you get `error: instruction not supported in 16-bit mode` while trying to create a raw binary, make sure your shellcode includes `bits 64` at it’s beginning (and is of course x64 shellcode!).
 
 </aside>
 
- Mind we’re getting ahead of ourselves.. let’s look at the rest of Sektor7’s blog.. we’ll come back to this later on.
+ Mind we’re getting ahead of ourselves.. let’s look at the rest of Sektor7’s blog.. we’ll come back to this in part 2.
 
 > **_OpSec:_** This shell could be used to pull in arbitrary elfs, such as a Sliver Implant.. however we’d be touching the disk. At this stage we’re purely in memory.
 
@@ -345,3 +353,12 @@ https://offensive.ninja
 ```
 
 The very important thing here is that the `seek=$(( 0x{func1} + 0x{func2} )` call is set correctly. You can see that we found `func2` from fig,3 at `0xaaeb` (`jmp 216` ), if this is incorrect, your shellcode cannot execute.
+
+## Source & tooling
+You can find the majority of the code here on [Github](https://github.com/orgs/Offensive-Ninja/repositories), please open any issues and I'll try my best to help out. 
+
+### Tools
+* GCHQ's [CyberChef](https://gchq.github.io/CyberChef/) is a fantastic resource for dealing with any kind of encoding.
+* redteam.cafe's [shellcode formatter](https://www.redteam.cafe/red-team/shellcode-injection/shellcode-formatter), there's a slightly modded version [on github](https://github.com/Offensive-Ninja/Python-Scripts/blob/main/format_sc.py)
+## In Part 2..
+We'll look at how you can load fully fledged implants into memory, and move on from a simple reverse shell. We might have a look at creating some tooling to make the process easier too.
